@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --bg-primary: 58, 71, 100;
+        --bg-secondary: 35, 44, 67;
+        --bg-tertiary: 24, 32, 52;
+
+        --bg-primary-key: 234, 227, 220;
+        --bg-primary-shadow: 180, 165, 151;
+
+        --bg-secondary-key: 99, 112, 151;
+        --bg-secondary-shadow: 64, 78, 114;
+
+        --bg-tertiary-key: 208, 63, 47;
+        --bg-tertiary-shadow: 147, 38, 26;
+        
+        --text-primary: 68, 75, 90;
+        --text-secondary: 255, 255, 255;
+        --text-tertiary: 255, 255, 255;
+    }
+
+    .light {
+        --bg-primary: 230, 230, 230;
+        --bg-secondary: 209, 204, 204;
+        --bg-tertiary: 237, 237, 237;
+
+        --bg-primary-key: 229, 228, 225;
+        --bg-primary-shadow: 166, 157, 145;
+
+        --bg-secondary-key: 55, 127, 134;
+        --bg-secondary-shadow: 27, 95, 101;
+
+        --bg-tertiary-key: 202, 85, 2;
+        --bg-tertiary-shadow: 137, 57, 1;
+        
+        --text-primary: 53, 53, 44;
+        --text-secondary: 255, 255, 255;
+        --text-tertiary: 255, 255, 255;
+    }
+
+    .contrast {
+        --bg-primary: 22, 6, 40;
+        --bg-secondary: 29, 9, 52;
+        --bg-tertiary: 29, 9, 52;
+
+        --bg-primary-key: 52, 28, 79;
+        --bg-primary-shadow: 135, 28, 156;
+
+        --bg-secondary-key: 88, 7, 125;
+        --bg-secondary-shadow: 188, 21, 244;
+
+        --bg-tertiary-key: 0, 224, 209;
+        --bg-tertiary-shadow: 108, 249, 242;
+        
+        --text-primary: 255, 229, 61;
+        --text-secondary: 255, 255, 255;
+        --text-tertiary: 27, 36, 40;
+    }
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Input } from './input';
+import { format, regex } from './utils';
 
 export const Calculator = () => {
 	const [operator, setOperator] = useState('');
@@ -22,17 +23,26 @@ export const Calculator = () => {
 				if (value === 'x') {
 					value = '*';
 				}
-				if (currentValue.search(/[+\-*/]+/) > 0) {
+				if (currentValue.search(regex) > 0) {
 					const newValue = evaluate();
 					setCurrentValue(newValue + value);
-				} else {
-					setCurrentValue(currentValue + value);
-				}
+				} else if (currentValue.startsWith('-')) {
+                    const number = currentValue.substring(1);
+                    if (number.search(regex) > 0) {
+                        const newValue = evaluate();
+                        setCurrentValue(newValue + value);
+                    } else {
+                        setCurrentValue(currentValue + value);
+                    }
+                }
+                else {
+                    setCurrentValue(currentValue + value);
+                }
 				setOperator(value);
 				break;
 			}
 			case '.': {
-				const values = currentValue.split(/[+\-*/]+/);
+				const values = currentValue.split(regex);
 				if (values.length > 1) {
 					if (values[1].indexOf('.') > -1) {
 						break;
@@ -50,15 +60,19 @@ export const Calculator = () => {
 				if (currentValue.length <= 1 || currentValue === `Can't divide by 0`) {
 					reset();
 				} else {
-					const values = currentValue.split(/[+\-*/]+/);
+					const values = currentValue.split(regex);
 					if (values.length > 1) {
-						setSecondOperand(
-							parseFloat(values[1].slice(0, values[1].length - 1))
-						);
+                        let newValue = 0
+                        if (values[1].length > 1) {
+                            newValue = parseFloat(values[1].slice(0, values[1].length - 1));
+                        }
+                        setSecondOperand(newValue);
 					} else {
-						setFirstOperand(
-							parseFloat(values[0].slice(0, values[0].length - 1))
-						);
+                        let newValue = 0
+                        if (values[0].length > 1) {
+                            newValue =  parseFloat(values[0].slice(0, values[0].length - 1))
+                        }
+						setFirstOperand(newValue);
 					}
 					setCurrentValue(currentValue.slice(0, currentValue.length - 1));
 				}
@@ -74,13 +88,13 @@ export const Calculator = () => {
 					setCurrentValue(value);
 					values.push(value);
 				} else if (currentValue.startsWith('-')) {
-                    setCurrentValue(currentValue + value);
-                    values = (currentValue + value).split(/[+\-*/]+/);
-                    values = values.slice(1, values.length)
-                    values[0] = '-' + values[0]
+					setCurrentValue(currentValue + value);
+					values = (currentValue + value).split(regex);
+					values = values.slice(1, values.length);
+					values[0] = '-' + values[0];
 				} else {
 					setCurrentValue(currentValue + value);
-					values = (currentValue + value).split(/[+\-*/]+/);
+					values = (currentValue + value).split(regex);
 				}
 				setFirstOperand(parseFloat(values[0]));
 				if (values.length > 1) {
@@ -141,16 +155,27 @@ export const Calculator = () => {
 		'=',
 	];
 
+    const displayResult = () => {
+        let split = 0
+        if (currentValue.startsWith('-')) {
+            const negative = currentValue.substring(1)
+            split = currentValue.search(negative)
+        } else {
+            split = currentValue.search(regex)
+        }
+        const first = currentValue.substring(0, split)
+        const second = currentValue.substring(split + 1)
+        return `${first ? format(first) : ''}${split > 0 ? currentValue[split] : ''}${second ? format(second) : ''}`
+    }
+
 	return (
 		<main className='flex flex-col space-y-6'>
-			<div className='flex bg-dark-background-screen p-6 rounded-xl justify-end'>
-				<span className='text-4xl font-bold'>
-					{currentValue === '0'
-						? parseFloat(currentValue).toLocaleString('en-US')
-						: currentValue}
+			<div className='flex bg-tertiary p-6 rounded-xl justify-end'>
+				<span className='text-4xl font-bold w-full break-words text-right'>
+                    {displayResult()}
 				</span>
 			</div>
-			<div className='grid grid-cols-4 grid-rows-5 gap-4 bg-dark-background-keyboard p-6 rounded-xl'>
+			<div className='grid grid-cols-4 grid-rows-5 gap-4 bg-secondary p-6 rounded-xl'>
 				{inputs.map(input => (
 					<Input key={input} value={input} handleClick={handleClick} />
 				))}

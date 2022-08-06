@@ -59,4 +59,8 @@
         --text-secondary: 255, 255, 255;
         --text-tertiary: 27, 36, 40;
     }
+
+    html {
+        font-family: League Spartan, system-ui, sans-serif;
+    }
 }

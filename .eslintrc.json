@@ -6,9 +6,9 @@
 		"plugin:import/warnings",
 		"plugin:react/recommended",
 		"plugin:react-hooks/recommended",
+		"plugin:react/jsx-runtime",
 		"plugin:import/typescript",
 		"plugin:@typescript-eslint/recommended",
-		"plugin:react/jsx-runtime",
         "prettier"
 	],
 	"parserOptions": {
@@ -31,12 +31,5 @@
 		"no-new-func": "error",
 		"react/prop-types": "warn",
 		"react/react-in-jsx-scope": "off"
-	},
-	"ignorePatterns": [
-		"**/*.html",
-		"**/*.css",
-		"**/*.jpg,",
-		"**/*.png",
-		"**/*.svg"
-	]
+	}
 }
